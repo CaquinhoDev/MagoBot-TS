@@ -1,5 +1,5 @@
 {
-  "name": "magobotTS",
+  "name": "MagoBot-TS",
   "version": "1.0.0",
   "description": "Um bot para Whatsapp usando Baileys, agora em TypeScript!",
   "main": "bot.js",
@@ -17,20 +17,21 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/caquinhodev/magobotts.git"
+    "url": "git+https://github.com/CaquinhoDev/MagoBot-TS.git"
   },
   "keywords": [
     "WhatsApp",
     "Sticker",
     "Bot",
-    "Mago"
+    "Mago",
+    "TS"
   ],
   "author": "CaquinhoDev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/caquinhodev/magobotts/issues"
+    "url": "https://github.com/CaquinhoDev/MagoBot-TS/issues"
   },
-  "homepage": "https://github.com/caquinhodev/magobotts#readme",
+  "homepage": "https://github.com/CaquinhoDev/MagoBot-TS#readme",
   "dependencies": {
     "@distube/ytdl-core": "^4.14.4",
     "@hapi/boom": "^10.0.1",
