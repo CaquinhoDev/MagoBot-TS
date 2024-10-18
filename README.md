@@ -20,7 +20,7 @@
    npm start
    ```
 5. Iniciar em modo de desenvolvimento:
-  ```bash
+   ```bash
    npm run debug
    ```
 
