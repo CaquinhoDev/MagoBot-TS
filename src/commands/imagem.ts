@@ -1,15 +1,13 @@
 import { GroupMetadata } from "@whiskeysockets/baileys";
 import path from "path";
-import fs from "fs"; // Usando fs comum para simplificar
+import { promises as fsPromises } from "fs"; // Usando fs com promessas para operações assíncronas
 import { emojis } from "../utils/emojis";
 import { StickerBotCommand } from "../types/Command";
 import { WAMessageExtended } from "../types/Message";
 import { react, sendMessage } from "../utils/baileysHelper";
 import { checkCommand } from "../utils/commandValidator";
 import { capitalize } from "../utils/misc";
-
-// Função para buscar a imagem (você deve implementar ou importar corretamente)
-import { buscarImagem } from "../utils/imageSearch"; // Exemplo de importação
+import { buscarImagem } from "../utils/imageSearch"; // Importação da função de busca de imagem
 
 // Gets the extension of this file, to dynamically import '.ts' if in development and '.js' if in production
 const extension = __filename.endsWith(".js") ? ".js" : ".ts";
@@ -60,7 +58,7 @@ export const command: StickerBotCommand = {
     if (!check) return;
 
     // Remove o prefixo e a palavra 'imagem' do comando para capturar a palavra-chave
-    const keyword = body.slice(alias.length).trim();
+    const keyword = body.slice(alias.length).trim(); // Agora `keyword` será "carro"
 
     // Verifica se uma palavra-chave foi fornecida
     if (!keyword) {
@@ -80,7 +78,7 @@ export const command: StickerBotCommand = {
 
       // Cria um arquivo temporário para salvar a imagem
       tempFilePath = path.join(__dirname, `temp_${Date.now()}.jpg`);
-      fs.writeFileSync(tempFilePath, imageBuffer);
+      await fsPromises.writeFile(tempFilePath, imageBuffer); // Usando writeFile assíncrono
 
       // Envia a imagem como mídia
       await sendMessage(
@@ -92,17 +90,19 @@ export const command: StickerBotCommand = {
       );
 
       // Reage com emoji de imagem
-      return await react(message, "🖼️");
+      await react(message, "🖼️");
     } catch (error) {
       // Em caso de erro, envia mensagem de erro
-      console.error("Erro ao buscar a imagem:", error); // Log do erro para depuração
+      console.error("Erro ao buscar a imagem:", error);
       await sendMessage({ text: `*Erro ao buscar a imagem:* ❌` }, message);
-      return await react(message, emojis.error);
+      await react(message, emojis.error);
     } finally {
       // Apaga o arquivo temporário após o envio, se ele foi criado
       if (tempFilePath) {
         try {
-          fs.unlinkSync(tempFilePath);
+          // Atraso de 100 milissegundos
+          await new Promise((resolve) => setTimeout(resolve, 100));
+          await fsPromises.unlink(tempFilePath); // Usando unlink assíncrono
         } catch (unlinkError) {
           console.error("Erro ao deletar arquivo temporário:", unlinkError);
         }
